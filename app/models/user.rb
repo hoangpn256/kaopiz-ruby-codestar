@@ -7,7 +7,7 @@ class User < ApplicationRecord
     private
 
     def print
-        p "User is created in #{timestamps}"
+        p "User is created in #{created_at}"
     end
 
     def deleteHistory
