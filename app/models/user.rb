@@ -3,7 +3,8 @@ validates :name, presence: true
 validates :email, uniqueness: true
 after_save :print
 before_destroy :history
-
+has_many :posts
+has_many :comments
 private
 def print
 puts "User is created in #{created_at}"
