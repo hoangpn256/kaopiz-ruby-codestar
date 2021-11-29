@@ -1,1 +1,9 @@
 <h1>Trang chu Students <h1>
+
+<h2>Thong tin users </h2>
+<% @posts.each do |item| %>
+    <li><%= item.user_id %></li>
+    <li><%= item.title %></li>
+    <li><%= item.description %></li>
+    <br />
+<% end %>
