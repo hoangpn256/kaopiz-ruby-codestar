@@ -1,11 +1,24 @@
-# kaopiz-ruby-codestar
+# README
 
-Hướng dẫn tạo, và push code
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-1. Add remote ssh của repo về
-2. Thêm ssh key tương ứng của local vào project của mình
-3. Xử lý push vào branch riêng của mỗi người theo format
+Things you may want to cover:
 
-- branch chính của mỗi người: PHẠM NGỌC HOÀNG -> `hoangpn_main`
-- branch bài tập mỗi buổi: `hoangpn_main_b1`
-- Tạo PR vào `hoangpn_main`
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
