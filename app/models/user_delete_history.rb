@@ -1,0 +1,2 @@
+class UserDeleteHistory < ApplicationRecord
+end
