@@ -1,0 +1,49 @@
+<div class="container" style="width: 1000px"> 
+<%= form_with model: @user do |f| %>
+    <div class="mb-3"> 
+    <%= f.label :name, "ho ten"%>
+    <%= f.text_field :name, class: 'form-control' %>
+    </div>
+    <div class="mb-3"> 
+    <%= f.label :email, "mail"%>
+    <%= f.text_field :email, class: 'form-control' %>
+    </div>
+     <div class="mb-3"> 
+    <%= f.label :phone, "phone"%>
+    <%= f.text_field :phone, class: 'form-control' %>
+    </div>
+    <div class="mb-3"> 
+    <%= f.label :dob ,"ngay sinh"%>
+    <%= f.date_field :dob, class: 'form-control' %>
+    </div>
+    <div class="mb-3"> 
+    <%= f.label :address ,"address"%>
+    <%= f.text_area :address, class: 'form-control' %>
+    </div>
+    <div class="mb-3"> 
+             <div class="form-check">
+                <%= f.label :gender, "Nam", class: 'form-check-label'%>
+                <%= f.radio_button :gender, 1 ,class: 'form-control' %>
+            </div>
+             <div class="form-check">
+                <%= f.label :gender, "Nu", class: 'form-check-label'%>
+                <%= f.radio_button :gender, 0, class: 'form-control' %>
+            </div>
+    </div>
+    <div class="mb-3"> 
+        <%= f.label :language, "ngon ngu"%>
+        <% Language.all.each do |t| %>
+            <div class ='row'>
+            <%= f.check_box :language, {mutilple: true},t.id, nil %>
+            <%= t.name %>
+            </div>
+        <% end %>
+    </div>
+    <div class="mb-3"> 
+        <%= f.label :vacine, "Tiem chung" %>
+        <%= f.select :vacine, [["Da tiem chung",true],["Chua tiem chung", false]],  { }, { :class => 'bt-select2'} %>
+    </div>
+
+    <%= f.submit "Submit" , class: "btn btn-success"%>
+<%end%>
+</div>
