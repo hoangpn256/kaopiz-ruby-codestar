@@ -1,0 +1,51 @@
+<div class="container" style="width: 1000px">
+  <br>
+  <%= form_with(model: article) do |form| %>
+    <% if article.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+        <ul>
+          <% article.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <div class="field">
+          <%= form.label :title%>
+          <%= form.text_field :title, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-8">
+        <div class="field">
+          <%= form.label :tags %>
+          <%= form.select  :tags, Tag.all.collect {|p| [ p.name, p.id ] } , { include_blank: true }, {  :class => 'bt-select2',multiple: "multiple" } %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2"> Status:</label>
+      <div class="form-check">
+        <%= form.label :status, "Draft", class: 'form-check-label' %>
+        <%= form.radio_button :status, 0, checked: true  %>
+      </div>
+      <div class="form-check">
+        <%= form.label :status, "Published", class: 'form-check-label'%>
+        <%= form.radio_button :status, 1 %>
+      </div>
+    </div>
+    <div class="field">
+      <%= form.label :body %>
+      <%= form.rich_text_area :body , class: 'form-control' %>
+    </div>
+    <div class="actions">
+   
+      <%= form.submit %>
+       <%= link_to 'Back', :back, class: 'btn' %>
+    </div>
+  <%end%>
+</div>

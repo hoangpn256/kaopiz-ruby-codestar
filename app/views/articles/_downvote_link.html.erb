@@ -1,0 +1,17 @@
+<%= content_tag "div", id: "downvote-#{article.id}" do %>
+  <% if user_signed_in? %>
+    <%= link_to downvote_article_path(article), method: :patch, remote: true, data: { disable_with: "voting..." } do %>
+      <% if current_user.voted_down_on? article %>
+        <i class="fas fa-thumbs-down"></i>
+      <% else %>
+        <i class="far fa-thumbs-down"></i>
+      <% end %>
+      <%= article.get_downvotes.size %>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path do %>
+      <i class="far fa-thumbs-down"></i>
+      <%= article.get_downvotes.size %>
+    <% end %>
+  <% end %>
+<% end %>

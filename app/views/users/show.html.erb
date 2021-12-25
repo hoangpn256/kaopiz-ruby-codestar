@@ -1,0 +1,21 @@
+
+<div  class="container">
+<br>
+    <h4> <%=@user.email%>'s profile </h4>  
+            <%= form_with(model: @user) do |form| %>
+                <div class="field">
+                    <%= form.label :email %>
+                    <%= form.text_field :email, :readonly => true %>
+                </div>
+                <div class="field">
+                    <%= form.label :username %>
+                    <%= form.text_field :username, :readonly => true%>
+                </div>
+                <%= link_to('Edit User', edit_user_registration_path , :class => "btn")%>
+            <% end%>
+           
+</div>
+
+<%= render 'profiles/form' , profile: @profile %>
+ 
+ 

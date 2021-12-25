@@ -1,0 +1,22 @@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<div class="container">
+<br>
+<h4> Create new Article </h4>
+<%= render 'form' , article: @article %>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('.bt-select2').each(function() {
+            $(this).select2({
+                maximumInputLength: 15,
+                maximumSelectionLength: 5,
+                tags: true,
+                width: '100%',
+                allowClear: true   // Shows an X to allow the user to clear the value.
+            });
+        });
+     });
+    
+</script>

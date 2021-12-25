@@ -1,0 +1,79 @@
+<style>
+  .align {
+    text-align: right;
+    align-items: right;
+    justify-content: right;
+  }
+</style>
+<div class="container">
+  <ul class="list-unstyled">
+    <% if articles != nil %>
+      <% articles.each do |article|%>
+        <li class="media">
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <% if article.user.profile.avatar["avatar"] != nil %>
+                <%= image_tag article.user.profile.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
+              <% else %>
+                <%= image_tag 'index.png', alt:'avatar', width:"40", height:"40", class: "rounded-circle"%>
+              <% end%>
+              <% if article.user.username? %>
+                <%= link_to article.user.username, article.user %>
+              <%else%>
+                <%= link_to article.user.email.truncate(9, omission: '..'), article.user %>
+              <%end%>
+            </div>
+          </div>
+          <%# <img class="mr-3" src="..." alt="Generic placeholder image"> %>
+          <div class="media-body">
+            <div class='row'>
+              <div class="col-lg-9 ">
+                <h5 class="mt-0 mb-1"> <b> <%= link_to article.title, article %> </b></h5>
+              </div>
+              <div class="col-lg-3 align ">
+                State: <%= article.status %>
+                <%= link_to  edit_article_path(article) do %> <i class="fas fa-edit"></i><% end %> |
+                <%= link_to  article, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fas fa-trash-alt"></i> <% end %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 ">
+                <div class="row">
+                  <i class="fas fa-eye has-tooltip" title="Viewed">  <%= article.viewed %>  </i>
+                  <i class="fa fa-comments has-tooltip" title="Commened">  <%= article.comments.count + article.comments.map{|e| e.comments}.flatten.count %>  </i>
+                </div>
+              </div>
+              <div class="col-lg-6 align">
+                <% if (Time.now - 2.days) < article.created_at %>
+                  Posted at: <%= distance_of_time_in_words(Time.now, article.created_at) %> ago
+                <% else %>
+                  Posted at: <%= article.created_at %>
+                <% end%>
+              </div>
+            </div>
+            <div class="trix-content">
+              <%= article.body.to_plain_text.truncate(200, omission: '...') %> <%= link_to '(continuous reading)', article%>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-4 ">
+                <div class="row">
+                  <td><%= render "articles/upvote_link", article: article %></td>
+                  <td><%= render "articles/downvote_link", article: article %></td>
+                </div>
+              </div>
+              <div class="col-lg-8 ">
+                <div class="row align">
+                  Tag: 
+                  <% article.tags.each do |tag|%>
+                    <%= link_to tag.name, tag_articles_articles_path(:tag => tag.name) %>|
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <hr class="filler-line mb-05">
+      <% end %>
+    <% end %>
+  </ul>
+</div>

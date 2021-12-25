@@ -1,0 +1,44 @@
+<div class="container">
+  <% commentable.comments.each do |comment| %>
+    <div class="container">
+      <div class="form-group row">
+        <div class="col-sm-2">
+          <div>  <% if comment.user.profile.avatar["avatar"] != nil %>
+              
+                <%= image_tag comment.user.profile.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
+              <% else %>
+                <%= image_tag 'index.png', alt:'avatar', width:"40", height:"40", class: "rounded-circle"%>
+              <% end%>  </div>
+          <div> <%= link_to comment.user.get_user_info, comment.user  %>  </div>
+        </div>
+        <div class="col-sm-10"><%= comment.content %> </div>
+      </div>
+    </div>
+    <div class="container">
+      <% comment.comments.each do |nest_comment| %>
+        <div class="container">
+          <div class="form-group row">
+            <div class="col-sm-2">
+              <div> <% if nest_comment.user.profile.avatar["avatar"] != nil %>
+                  <%= image_tag nest_comment.user.profile.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
+                <% else %>
+                <%= image_tag 'index.png', alt:'avatar', width:"40", height:"40", class: "rounded-circle"%>
+                <% end%>  </div>
+              <div> <%= link_to nest_comment.user.get_user_info, nest_comment.user  %>  </div>
+            </div>
+            <div class="col-sm-10"><%= nest_comment.content %> </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="container">
+      <div class="form-group row">
+        <% if user_signed_in? %>
+          <%= render partial: "comments/form", locals: {commentable: comment} %>
+        <% else %>
+          <%= link_to 'Sign in to comment', new_user_session_path %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

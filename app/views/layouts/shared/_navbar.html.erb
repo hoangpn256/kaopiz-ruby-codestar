@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="<%= root_path%>">HomePage</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item <%= 'active' if current_page?(new_article_path) %>">
+        <a class="nav-link" href="<%=new_article_path%>">New Article <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item <%= 'active' if current_page?(trending_articles_articles_path) %>">
+        <a class="nav-link" href="<%= trending_articles_articles_path %>">TRENDING</a>
+      </li>
+       <li class="nav-item <%= 'active' if current_page?(own_articles_articles_path) %>">
+        <a class="nav-link" href="<%= own_articles_articles_path %>">My Article</a>
+      </li>
+    </ul>
+   
+
+     <ul class="navbar-nav ml-auto">
+     
+      <%= search_form_for(@q, url: search_path) do |f| %>
+  <%= f.search_field :title_or_action_text_rich_text_body_or_user_username_or_user_email_or_tags_name_cont %>
+  <%= f.submit %>
+<% end %>
+
+
+   
+      <%if current_user != nil %>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span> Hello <%= current_user.email %> </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+         
+            <a class="dropdown-item" href="<%= user_path(current_user)%>"> Profile</a>
+            <a class="dropdown-item" href="<%= own_articles_articles_path %>">My Articles</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/users/sign_out">Sign Out</a>
+          </div>
+        </li>
+        <%else%>
+          <button type="button" class="btn-outline-success my-2 my-sm-0"><!----><i class="fa fa-sign-in"></i><%= link_to "Đăng nhập/Đăng ký", new_user_session_path %></button>
+        <%end%>
+     </ul>
+  </div>
+</nav>

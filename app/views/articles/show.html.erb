@@ -1,0 +1,47 @@
+<div  class="container">
+  <div class="row pt-3 pb-1">
+    <div class="col-lg-9 pl-md-0">
+      <%= render partial: "info_article_form", locals: {article: @article} %>
+      <br>
+      <p><strong> <%= @article.title %></strong>  </p>
+      <br>
+      <p>
+        
+        <div class="trix-content">
+          <%= @article.body %>
+        </div>
+      </p>
+      <hr class="filler-line mb-05">
+      <p>
+        <h5 class="text-bold"> TAG </h5>
+        <% @article.tags.each do |tag|%>
+          <%= link_to tag.name, tag_articles_articles_path(:tag => tag.name) %>|
+        <% end %>
+      </p>
+       <p>
+        <strong>Viewed:</strong>
+        <%= @article.viewed %>
+      </p>
+         <%= link_to 'Edit', edit_article_path(@article) %> |
+      <%= link_to 'Back', articles_path %>
+      <%# <%= link_to "Back", :back %> 
+      <% if @article.comments != nil %>
+        <div class="section-title-line mr-lg-n1">
+          <h4 class="text-bold">
+            <%= @article.comments.count + @article.comments.map{|e| e.comments}.flatten.count %> CÂU TRẢ LỜI
+          </h4>
+       
+ <hr class="filler-line mb-05">
+        </div>
+        <%= render partial: "comments/comments", locals: {commentable: @article} %>
+      <% end%>
+      <% if user_signed_in? %>
+        <%= render partial: "comments/form", locals: {commentable: @article} %>
+        <% else %>
+        <%= link_to 'Sign in to comment', new_user_session_path %>
+      <% end %>
+     
+      
+    </div>
+  </div>
+</div>

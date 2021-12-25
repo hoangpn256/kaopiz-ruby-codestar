@@ -1,0 +1,37 @@
+<style>
+  .align {
+    text-align: right;
+    align-items: right;
+    justify-content: right;
+  }
+</style>
+<div class="row ">
+  <%# <div class="column">
+        <%= user.profile.avatar %>
+  <%# </div> %>
+  <div class="col-lg-6 ">
+    <% if article.user.profile.avatar["avatar"] != nil %>
+      <%= image_tag article.user.profile.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
+    <% else %>
+      <%= image_tag 'index.png', alt:'avatar', width:"40", height:"40", class: "rounded-circle"%>
+    <% end%>
+    <% if article.user.username? %>
+      Author: <%= link_to article.user.username, article.user  %>
+    <%else%>
+      Author: <%= link_to article.user.email, article.user %>
+    <%end%>
+  </div>
+  <div class="col-lg-6 align">
+    <% if (Time.now - 2.days) < article.created_at %>
+      Posted at: <%= distance_of_time_in_words(Time.now, article.created_at) %> ago
+    <% else %>
+      Posted at: <%= article.created_at %>
+    <% end%>
+    <div class="row align">
+      <i class="fas fa-eye has-tooltip" title="Viewed">  <%= article.viewed %>  </i>
+      <i class="fa fa-comments has-tooltip" title="Commened">  <%= article.comments.count + article.comments.map{|e| e.comments}.flatten.count %>  </i>
+      <td><%= render "articles/upvote_link", article: article %></td>
+      <td><%= render "articles/downvote_link", article: article %></td>
+    </div>
+  </div>
+</div>

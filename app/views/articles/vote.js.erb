@@ -1,0 +1,2 @@
+document.getElementById("upvote-<%= @article.id %>").innerHTML = "<%= j render "articles/upvote_link", article: @article %>";
+document.getElementById("downvote-<%= @article.id %>").innerHTML = "<%= j render "articles/downvote_link", article: @article %>";
