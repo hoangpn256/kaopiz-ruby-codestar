@@ -12,9 +12,11 @@
       <li class="nav-item <%= 'active' if current_page?(trending_articles_articles_path) %>">
         <a class="nav-link" href="<%= trending_articles_articles_path %>">TRENDING</a>
       </li>
+      <% if user_signed_in? %>
        <li class="nav-item <%= 'active' if current_page?(own_articles_articles_path) %>">
         <a class="nav-link" href="<%= own_articles_articles_path %>">My Article</a>
       </li>
+      <% end%>
     </ul>
    
 
