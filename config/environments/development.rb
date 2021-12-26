@@ -77,16 +77,6 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
-    port: 587,
-    domain: 'gmail.com',
-    user_name: 'mr.bluewater07@gmail.com',
-    password:  '1Abcde@1',
-    authentication: 'plain',
-    enable_starttls_auto: true
-  }
 
   ENV['GOOGLE_OAUTH_CLIENT_ID'] = '59777833918-1r9del84a3l1qduh9cgukjid1o3qg6p2.apps.googleusercontent.com'
   ENV['GOOGLE_OAUTH_CLIENT_SECRET'] = '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'
