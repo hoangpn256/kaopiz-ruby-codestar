@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  acts_as_voter
-  has_one :profile
+  acts_as_voter 
+  has_one :profile, dependent:   :destroy
   has_many :articles
   has_and_belongs_to_many :roles
   #  following of user
@@ -18,7 +18,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :lockable, :omniauthable, authentication_keys: [:login], omniauth_providers: [:google_oauth2] 
+         :recoverable, :rememberable, :confirmable, :trackable, :lockable, :omniauthable, authentication_keys: [:login], omniauth_providers: [:google_oauth2] 
 
         #  def self.from_google(email:, full_name:, uid:, avatar_url:)
           # return nil unless email =~ /@gmail.com\z/

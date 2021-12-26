@@ -7,12 +7,13 @@
 </style>
 <div class="container">
   <ul class="list-unstyled">
+    <%= render "articles/order_by_params", article: @articles if current_page?(root_path) || current_page?(articles_path)  %>
     <% if articles != nil %>
       <% articles.each do |article|%>
         <li class="media">
           <div class="form-group row">
             <div class="col-sm-4">
-              <% if article.user.profile.avatar["avatar"] != nil %>
+              <% if article.user.profile.avatar.attached? %>
                 <%= image_tag article.user.profile.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
               <% else %>
                 <%= image_tag 'index.png', alt:'avatar', width:"40", height:"40", class: "rounded-circle"%>
@@ -22,6 +23,7 @@
               <%else%>
                 <%= link_to article.user.email.truncate(9, omission: '..'), article.user %>
               <%end%>
+              <%= render "users/follow", user: article.user %>
             </div>
           </div>
           <%# <img class="mr-3" src="..." alt="Generic placeholder image"> %>

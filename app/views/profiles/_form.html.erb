@@ -1,34 +1,50 @@
 <div class="container">
   <h5>Profile</h5>
   <%= form_with(model: profile) do |form| %>
-    <div class="field">
-      <%= form.label :name %>
-      <%= form.text_field :name%>
-    </div>
-    <div class="field">
-      <%= form.label :dob , "DOB" %>
-      <%= form.date_field :dob%>
-    </div>
-    <div class="field">
-      <%= form.label :phone %>
-      <%= form.text_field :phone%>
-    </div>
-    <% if profile.avatar.id == nil %>
-      <div class="field">
-        <%= form.label :avatar %>
-        <%= form.file_field  :avatar%>
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <div class="field">
+          <%= form.label :name %>
+          <%= form.text_field :name, class: 'form-control'%>
+        </div>
       </div>
-    <% else %>
-      <%= form.label :avatar, 'Avatar' %>
-      <%= image_tag profile.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
-      <div class="field">
-        <%= form.label :avatar, 'Update avatar' %>
-        <%= form.file_field  :avatar%>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <div class="field">
+          <%= form.label :dob , "DOB" %>
+          <%= form.date_field :dob, class: 'form-control'%>
+        </div>
       </div>
-    <%end%>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <div class="field">
+          <%= form.label :phone %>
+          <%= form.text_field :phone, class: 'form-control'%>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <% if !profile.avatar.attached? %>
+          <div class="field">
+            <%= form.label :avatar %>
+            <%= form.file_field  :avatar, class: 'form-control'%>
+          </div>
+        <% else %>
+          <%= form.label :avatar, 'Avatar' %>
+          <%= image_tag profile.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
+          <div class="field">
+            <%= form.label :avatar %>
+            <%= form.file_field  :avatar, class: 'form-control'%>
+          </div>
+        <%end%>
+      </div>
+    </div>
     <div class="actions">
-     <% if can? :update , profile%>
-      <%= form.submit 'update'%>
+      <% if can? :update , profile%>
+        <%= form.submit 'update'%>
       <% end %>
       <%= link_to 'Back', root_path, class: 'btn' %>
     </div>

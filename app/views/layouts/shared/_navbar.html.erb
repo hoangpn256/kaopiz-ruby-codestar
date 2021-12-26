@@ -14,7 +14,7 @@
       </li>
       <% if user_signed_in? %>
        <li class="nav-item <%= 'active' if current_page?(own_articles_articles_path) %>">
-        <a class="nav-link" href="<%= own_articles_articles_path %>">My Article</a>
+        <a class="nav-link" href="<%= own_articles_articles_path(user_id: current_user.id) %>">My Article</a>
       </li>
       <% end%>
     </ul>

@@ -1,0 +1,11 @@
+<%= content_tag "div", id: "follow-#{user.id}" do %>
+  <% if user_signed_in? %>
+    <% if !current_user.followings.include?(user) %>
+      <%= link_to 'Follow',follow_user_path(user), method: :post, remote: true  %>
+    <% else %>
+      <%= link_to 'UnFollow',unfollow_user_path(user), method: :post, remote: true %>
+    <% end %>
+  <% else%>
+   <%= link_to 'Follow', "/users/sign_in"  %>
+  <% end %>
+<% end %>

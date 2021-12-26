@@ -31,11 +31,12 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
 
-    can :read, [Comment, User, Profile]
+    can :read, [Comment, User, Profile, Follow, Tag]
     can :read, Article, status: 'published'
-    
+    can [:trending_articles, :tag_articles], Article, status: 'published'
     if user.roles.pluck(:role).include?("normal_user")
       can :manage, User, email: user.email
+      can [:follow, :unfollow], User
       can :manage, Profile, user: user
       can :manage, Article, user: user
       # can [:read, :update], Article, user: user, status: 'published'

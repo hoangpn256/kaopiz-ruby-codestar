@@ -10,7 +10,7 @@
         <%= user.profile.avatar %>
   <%# </div> %>
   <div class="col-lg-6 ">
-    <% if article.user.profile.avatar["avatar"] != nil %>
+    <% if article.user.profile.avatar.attached? %>
       <%= image_tag article.user.profile.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
     <% else %>
       <%= image_tag 'index.png', alt:'avatar', width:"40", height:"40", class: "rounded-circle"%>
@@ -20,6 +20,7 @@
     <%else%>
       Author: <%= link_to article.user.email, article.user %>
     <%end%>
+     <%= render "users/follow", user: article.user %>
   </div>
   <div class="col-lg-6 align">
     <% if (Time.now - 2.days) < article.created_at %>

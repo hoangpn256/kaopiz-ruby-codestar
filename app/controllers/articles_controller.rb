@@ -27,21 +27,57 @@ class ArticlesController < ApplicationController
     end
 
 def index
-    @articles = Article.published.order("created_at DESC")
+    
+  @filter_datas = Article.published.order("created_at DESC")
+    if !params[:times].blank?
+      case params[:times]
+      when 'week'
+        @filter_datas = Article.published_articles_in_week
+      when 'month'
+        @filter_datas = Article.published_articles_in_month
+      end
+    end
+    if !params[:orders].blank?
+      case params[:orders]
+      when 'view'       
+        @filter_datas = Article.top_view(@filter_datas) 
+      when 'like'
+        @filter_datas = Article.top_like(@filter_datas) 
+      end     
+    end
+    @q = @filter_datas.ransack()
+    @articles = @q.result(:distinct=>true)
+    # @articles = Article.published.order("created_at DESC")
 end
 
 def own_articles
-    @articles = current_user.articles.order("created_at DESC")
+    # @articles = current_user.articles.order("created_at DESC")
+    if !params[:user_id].blank?
+      @q = User.find_by(id: params[:user_id]).articles.published.order("created_at DESC").ransack()  
+      @articles = @q.result(:distinct=>true)
+    elsif !params[:user_id].blank? and current_user == params[:user_id]
+      @q = current_user.articles.published.order("created_at DESC").ransack()  
+      @articles = @q.result(:distinct=>true)      
+    end
     render "index"
 end
 
 def trending_articles
-  @articles = Article.published.order("created_at DESC, viewed DESC")
+  @q = Article.published.order("viewed DESC, created_at DESC").ransack()  
+  @articles = @q.result(:distinct=>true)
+# get top articles by liked
+# @articles = Article.published.order("cached_votes_total DESC, created_at DESC")
   render "index"
 end
 
 def tag_articles
-  @articles = Article.joins(:tags).where("tags.name = ?", params[:tag]).published.order("created_at DESC")
+  if user_signed_in?
+    @q = Article.joins(:tags).where("(tags.name = ? and status = 1) or (tags.name = ? and user_id = ?)", params[:tag],params[:tag], current_user.id ).order("created_at DESC").ransack()  
+  else
+    @q = Article.joins(:tags).where("tags.name = ? and status = 1", params[:tag]).order("created_at DESC").ransack()  
+  end
+  @articles = @q.result(:distinct=>true)
+  # @articles = Article.joins(:tags).where("tags.name = ?", params[:tag]).published.order("created_at DESC")
   render "index"
 end
 
@@ -60,16 +96,16 @@ end
 def create
  
     @article = current_user.articles.new(article_params.except(:tags))
-    if params["article"][:tags] != nil and params["article"][:tags] != []
+    if !params["article"][:tags].blank?
       params["article"][:tags].shift()
       params["article"][:tags].each do |t|
         tag = Tag.find_or_create_by(name: t)
         @article.tags << tag
       end  
     end
-
     respond_to do |format|
         if @article.save
+          
           format.html { redirect_to @article, notice: 'Tạo mới thành công.' }
           format.json { render :show, status: :created, location: @article }
         else
@@ -84,7 +120,7 @@ def edit
 end
 
 def update
-  if params["article"][:tags] != nil and params["article"][:tags] != []
+  if !params["article"][:tags].blank?
     params["article"][:tags].shift()
     params["article"][:tags].each do |t|
       tag = Tag.find_or_create_by(name: t)

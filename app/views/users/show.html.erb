@@ -4,14 +4,23 @@
     <h4> <%=@user.email%>'s profile </h4>  
             <%= form_with(model: @user) do |form| %>
                 <div class="field">
-                    <%= form.label :email %>
-                    <%= form.text_field :email, :readonly => true %>
+                    <%= form.label :email %>: 
+                     <%=@user.email %> 
                 </div>
                 <div class="field">
-                    <%= form.label :username %>
-                    <%= form.text_field :username, :readonly => true%>
+                    <%= form.label :username %>:
+                    <%=@user.username %> 
                 </div>
-                <%= link_to('Edit User', edit_user_registration_path , :class => "btn")%>
+                <% if can? :update, @user %>
+                    <%= link_to('Edit User', edit_user_registration_path , :class => "btn")%>
+                <% end%>
+
+                <div class="form-group row">
+      <div class="col-sm-4">
+        Followings: <%= @user.followings.blank? ?  "0" : (link_to  @user.followings.count, users_path(follow: "Following",user_ids: @user.followings.pluck(:id))) %>
+         Followers: <%= @user.followers.blank? ?  "0" : (link_to  @user.followers.count, users_path(follow: "Follower",user_ids: @user.followers.pluck(:id))) %>
+      </div>
+    </div>
             <% end%>
            
 </div>

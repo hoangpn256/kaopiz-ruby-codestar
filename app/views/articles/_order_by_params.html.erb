@@ -1,0 +1,19 @@
+<style>
+  .align {
+    text-align: right;
+    align-items: right;
+    justify-content: right;
+  }
+</style>
+<div class="row align">
+ <%= link_to 'All', articles_path %>|
+  <%= link_to 'Week', articles_path(:times => "week")  %>|
+  <%= link_to 'Month', articles_path(:times => "month")  %>|
+  <% if !params[:times].blank? %>
+    <%= link_to 'Most Viewed', articles_path(:orders => "view", :times => params[:times])   %>|
+    <%= link_to 'Most Liked', articles_path(:orders => "like", :times => params[:times])  %>
+  <% else %>
+    <%= link_to 'Most Viewed', articles_path(:orders => "view")   %>|
+    <%= link_to 'Most Liked', articles_path(:orders => "like")  %>
+  <% end %>
+</div>

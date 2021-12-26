@@ -47,16 +47,20 @@ end
   end
 
   def search
+    shared_context = Ransack::Context.for(Article)
     q = params[:q]
     @q = Article.published.ransack(params[:q])
     if user_signed_in?
-      @articles = current_user.articles.ransack(params[:q])
-     
-      @q = @q or @articles
+      @user_articles = current_user.articles.ransack(params[:q])
+      shared_conditions = [@q, @user_articles].map { |search|
+        Ransack::Visitor.new.accept(search.base)
+      }
+      @q = Article.joins(shared_context.join_sources)
+      .where(shared_conditions.reduce(&:or)).ransack(params[:q])
     end
   
     @q.sorts = 'created_at desc' if @q.sorts.empty?
-    @articles = @q.result
+    @articles = @q.result(:distinct=>true)
     render "articles/index"
   end
   

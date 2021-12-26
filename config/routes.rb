@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'follows/create'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'users/show'
   get 'users/index'
@@ -29,9 +30,11 @@ Rails.application.routes.draw do
 
   end
 
-    resources :users, :only => [:index, :show] do
+    resources :users do
       member do
         get :following, :followers
+        post 'follow', to: "users#follow"
+        post 'unfollow', to: "users#unfollow"
       end
     end
 
@@ -39,7 +42,7 @@ Rails.application.routes.draw do
   resources :profiles
   
   resources :articles do
-    collection do
+    collection do 
       get "tag_articles", to: "articles#tag_articles"
       get "own_articles", to: "articles#own_articles"
       get "trending_articles", to: "articles#trending_articles"

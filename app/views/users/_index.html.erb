@@ -1,0 +1,32 @@
+ <% if users != nil %>
+<div class="container">
+<h4> List User <%= params[:follow]%> </h4>
+<table class="table table-vcenter table-condensed ">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Articles</th>
+      <th>Follower</th>
+      <th>Following</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><%= link_to user.email, user %></td>
+        <td><%= link_to user.articles.published.count, own_articles_articles_path(user_id: user.id) %></td>
+        <td><%= user == current_user ? (link_to user.followers.count, users_path(user_ids: user.followers.pluck(:id))) : user.followers.count%></td>
+        <td><%= user == current_user ? (link_to user.followings.count, users_path(user_ids: user.followings.pluck(:id))) : user.followings.count%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'Back', :back %>
+<%= link_to 'Homepage', root_path %>
+</div>
+ <% end%>

@@ -23,7 +23,7 @@
       <div class="col-sm-8">
         <div class="field">
           <%= form.label :tags %>
-          <%= form.select  :tags, Tag.all.collect {|p| [ p.name, p.id ] } , { include_blank: true }, {  :class => 'bt-select2',multiple: "multiple" } %>
+          <%= form.select  :tags, Tag.all.pluck(:name) , { include_blank: true }, {  :class => 'bt-select2',multiple: "multiple" } %>
         </div>
       </div>
     </div>
@@ -31,11 +31,11 @@
       <label class="col-sm-2"> Status:</label>
       <div class="form-check">
         <%= form.label :status, "Draft", class: 'form-check-label' %>
-        <%= form.radio_button :status, 0, checked: true  %>
+        <%= form.radio_button :status, 0, checked: (article.status == "draft")  %>
       </div>
       <div class="form-check">
         <%= form.label :status, "Published", class: 'form-check-label'%>
-        <%= form.radio_button :status, 1 %>
+        <%= form.radio_button :status, 1, checked: (article.status == "published")%>
       </div>
     </div>
     <div class="field">
